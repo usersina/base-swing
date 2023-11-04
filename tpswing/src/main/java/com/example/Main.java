@@ -1,8 +1,10 @@
 package com.example;
 
+import com.example.ui.MainApplicationWindow;
+
 public class Main {
     public static void main(String[] args) {
-        TpSwing tp = new TpSwing();
-        tp.setVisible(true);
+        MainApplicationWindow applicationWindow = new MainApplicationWindow();
+        applicationWindow.setVisible(true);
     }
 }

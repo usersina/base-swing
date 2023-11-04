@@ -1,6 +1,6 @@
-package com.example;
+package com.example.constants;
 
-public final class Constants {
+public final class Labels {
     /**
      * The first name label. Used to keep the same label in the whole application.
      */

@@ -1,4 +1,4 @@
-package com.example;
+package com.example.ui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -22,20 +22,23 @@ import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 
-import com.example.utils.JFrameDraggable;
+import com.example.constants.Labels;
+import com.example.listener.TextFieldFocusListener;
+import com.example.model.UserProfile;
+import com.example.util.JFrameDraggable;
 
-public class Profils extends JFrameDraggable {
-    ArrayList<Profil> data = new ArrayList<Profil>();
+public class ProfileManager extends JFrameDraggable {
+    ArrayList<UserProfile> data = new ArrayList<UserProfile>();
     DefaultListModel<String> model;
     JTabbedPane jtp;
-    JLabel lb_nom, lb_prenom, lb_pseudo, lb_help;
-    JTextField tf_nom, tf_prenom, tf_pseudo;
+    public JLabel lb_nom, lb_prenom, lb_pseudo, lb_help;
+    public JTextField tf_nom, tf_prenom, tf_pseudo;
     JButton btnvalider;
 
     JList<String> jlist_profil;
     JSplitPane jsp;
 
-    Profils() {
+    public ProfileManager() {
         this.setTitle("Gestion profil");
         this.setSize(750, 600);
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -46,13 +49,13 @@ public class Profils extends JFrameDraggable {
         lb_pseudo = new JLabel("Pseudo");
 
         tf_nom = new JTextField(15);
-        tf_nom.setText(Constants.LASTNAME_LABEL);
+        tf_nom.setText(Labels.LASTNAME_LABEL);
 
         tf_prenom = new JTextField(15);
-        tf_prenom.setText(Constants.FIRSTNAME_LABEL);
+        tf_prenom.setText(Labels.FIRSTNAME_LABEL);
 
         tf_pseudo = new JTextField(15);
-        tf_pseudo.setText(Constants.NICKNAME_LABEL);
+        tf_pseudo.setText(Labels.NICKNAME_LABEL);
 
         btnvalider = new JButton("Valider");
 
@@ -92,10 +95,10 @@ public class Profils extends JFrameDraggable {
             public void actionPerformed(ActionEvent e) {
                 String newPseudo = tf_pseudo.getText();
 
-                if (newPseudo.equals(Constants.NICKNAME_LABEL)) {
+                if (newPseudo.equals(Labels.NICKNAME_LABEL)) {
                     // Show error message
                     JOptionPane.showMessageDialog(
-                            Profils.this,
+                            ProfileManager.this,
                             "Pseudo cannot be empty.",
                             "Error",
                             JOptionPane.ERROR_MESSAGE //
@@ -104,16 +107,16 @@ public class Profils extends JFrameDraggable {
                 }
 
                 // Check if pseudo already exists
-                boolean pseudoExists = data.stream().anyMatch(profil -> profil.getPseudo().equals(newPseudo));
+                boolean pseudoExists = data.stream().anyMatch(profil -> profil.getNickname().equals(newPseudo));
 
                 if (!pseudoExists) {
                     // Add new Profil if pseudo is unique
-                    data.add(new Profil(tf_nom.getText(), tf_prenom.getText(), newPseudo));
+                    data.add(new UserProfile(tf_nom.getText(), tf_prenom.getText(), newPseudo));
                     model.addElement(newPseudo);
                 } else {
                     // Show error message
                     JOptionPane.showMessageDialog(
-                            Profils.this,
+                            ProfileManager.this,
                             "Pseudo already exists. Please choose a different one.",
                             "Error",
                             JOptionPane.ERROR_MESSAGE //
@@ -128,13 +131,9 @@ public class Profils extends JFrameDraggable {
         lb_pseudo.addMouseListener(new EcouteurLabel());
 
         // Ecouteur Focus
-        tf_nom.addFocusListener(new EcouteurFocus(this));
-        tf_prenom.addFocusListener(new EcouteurFocus(this));
-        tf_pseudo.addFocusListener(new EcouteurFocus(this));
-
-        tf_nom.addMouseListener(new EcouteurTextField(this));
-        tf_prenom.addMouseListener(new EcouteurTextField(this));
-        tf_pseudo.addMouseListener(new EcouteurTextField(this));
+        tf_nom.addFocusListener(new TextFieldFocusListener(this));
+        tf_prenom.addFocusListener(new TextFieldFocusListener(this));
+        tf_pseudo.addFocusListener(new TextFieldFocusListener(this));
 
         jlist_profil.addMouseListener(new MouseAdapter() {
             @Override
