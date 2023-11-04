@@ -16,6 +16,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
@@ -23,14 +24,14 @@ import javax.swing.JTextField;
 
 public class Profils extends JFrame {
     ArrayList<Profil> data = new ArrayList<Profil>();
-    DefaultListModel model;
+    DefaultListModel<String> model;
     JTabbedPane jtp;
     // Declaration
     JLabel lb_nom, lb_prenom, lb_pseudo, lb_help;
     JTextField tf_nom, tf_prenom, tf_pseudo;
     JButton btnvalider;
 
-    JList jlist_profil;
+    JList<String> jlist_profil;
     JSplitPane jsp;
 
     Profils() {
@@ -42,12 +43,16 @@ public class Profils extends JFrame {
         lb_nom = new JLabel("Nom");
         lb_prenom = new JLabel("Prenom");
         lb_pseudo = new JLabel("Pseudo");
+
         tf_nom = new JTextField(15);
-        tf_nom.setText("Tapper votre nom");
+        tf_nom.setText(Constants.LASTNAME_LABEL);
+
         tf_prenom = new JTextField(15);
-        tf_prenom.setText("Tapper votre prenom");
+        tf_prenom.setText(Constants.FIRSTNAME_LABEL);
+
         tf_pseudo = new JTextField(15);
-        tf_pseudo.setText("Tapper votre pseudo");
+        tf_pseudo.setText(Constants.NICKNAME_LABEL);
+
         btnvalider = new JButton("Valider");
 
         JPanel p_north = new JPanel();
@@ -65,9 +70,9 @@ public class Profils extends JFrame {
 
         jsp = new JSplitPane();
 
-        model = new DefaultListModel();
+        model = new DefaultListModel<String>();
         // model.addElement("SSSSSS");
-        jlist_profil = new JList(model);
+        jlist_profil = new JList<String>(model);
         jlist_profil.setPreferredSize(new Dimension(150, 0));
         jtp = new JTabbedPane();
         // jtp.addTab("titre1",new JPanel());
@@ -84,13 +89,35 @@ public class Profils extends JFrame {
         btnvalider.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                String newPseudo = tf_pseudo.getText();
 
-                // TESTER si PSEUdo deja existe
-                data.add(new Profil(tf_nom.getText(),
-                        tf_prenom.getText(),
-                        tf_pseudo.getText()));
+                if (newPseudo.equals(Constants.NICKNAME_LABEL)) {
+                    // Show error message
+                    JOptionPane.showMessageDialog(
+                            Profils.this,
+                            "Pseudo cannot be empty.",
+                            "Error",
+                            JOptionPane.ERROR_MESSAGE //
+                    );
+                    return;
+                }
 
-                model.addElement(tf_pseudo.getText());
+                // Check if pseudo already exists
+                boolean pseudoExists = data.stream().anyMatch(profil -> profil.getPseudo().equals(newPseudo));
+
+                if (!pseudoExists) {
+                    // Add new Profil if pseudo is unique
+                    data.add(new Profil(tf_nom.getText(), tf_prenom.getText(), newPseudo));
+                    model.addElement(newPseudo);
+                } else {
+                    // Show error message
+                    JOptionPane.showMessageDialog(
+                            Profils.this,
+                            "Pseudo already exists. Please choose a different one.",
+                            "Error",
+                            JOptionPane.ERROR_MESSAGE //
+                    );
+                }
             }
         });
 

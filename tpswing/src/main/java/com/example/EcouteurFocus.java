@@ -12,27 +12,36 @@ public class EcouteurFocus implements FocusListener {
 
     @Override
     public void focusGained(FocusEvent e) {
-        if (e.getSource() == p.tf_nom)
-            p.tf_nom.setText("");
-        if (e.getSource() == p.tf_prenom)
-            p.tf_prenom.setText("");
-        if (e.getSource() == p.tf_pseudo)
-            p.tf_pseudo.setText("");
+        if (e.getSource() == p.tf_nom) {
+            if (p.tf_nom.getText().trim().equals(Constants.LASTNAME_LABEL)) {
+                p.tf_nom.setText("");
+            }
+        } else if (e.getSource() == p.tf_prenom) {
+            if (p.tf_prenom.getText().trim().equals(Constants.FIRSTNAME_LABEL)) {
+                p.tf_prenom.setText("");
+            }
+        } else if (e.getSource() == p.tf_pseudo) {
+            if (p.tf_pseudo.getText().trim().equals(Constants.NICKNAME_LABEL)) {
+                p.tf_pseudo.setText("");
+            }
+        }
     }
 
     @Override
     public void focusLost(FocusEvent e) {
-        if (e.getSource() == p.tf_nom)
-            if (p.tf_nom.getText().trim().equals(""))
-                p.tf_nom.setText("Tapper votre nom");
-
-        if (e.getSource() == p.tf_prenom)
-            if (p.tf_prenom.getText().trim().equals(""))
-                p.tf_prenom.setText("Tapper votre prenom");
-
-        if (e.getSource() == p.tf_pseudo)
-            if (p.tf_pseudo.getText().trim().equals(""))
-                p.tf_pseudo.setText("Tapper votre pseudo");
+        if (e.getSource() == p.tf_nom) {
+            if (p.tf_nom.getText().trim().equals("")) {
+                p.tf_nom.setText(Constants.LASTNAME_LABEL);
+            }
+        } else if (e.getSource() == p.tf_prenom) {
+            if (p.tf_prenom.getText().trim().equals("")) {
+                p.tf_prenom.setText(Constants.FIRSTNAME_LABEL);
+            }
+        } else if (e.getSource() == p.tf_pseudo) {
+            if (p.tf_pseudo.getText().trim().equals("")) {
+                p.tf_pseudo.setText(Constants.NICKNAME_LABEL);
+            }
+        }
 
     }
 }

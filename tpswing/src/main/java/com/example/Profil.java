@@ -1,20 +1,17 @@
 package com.example;
 
-public class Profil {
-    String nom, prenom, pseudo;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 
-    public Profil(String nom, String prenom, String pseudo) {
-        this.nom = nom;
-        this.prenom = prenom;
-        this.pseudo = pseudo;
-    }
+@Data
+@AllArgsConstructor
+public class Profil {
+    private String nom;
+    private String prenom;
+    private String pseudo;
 
     @Override
     public String toString() {
-        return "Profil{" +
-                "nom='" + nom + '\'' +
-                ", prenom='" + prenom + '\'' +
-                ", pseudo='" + pseudo + '\'' +
-                '}';
+        return String.format("Profile: { Nom: %s, Prenom: %s, Pseudo: %s }", nom, prenom, pseudo);
     }
 }
