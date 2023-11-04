@@ -8,8 +8,9 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
-public class TpSwing extends JFrame {
-    // Declaration
+import com.example.utils.JFrameDraggable;
+
+public class TpSwing extends JFrameDraggable {
     JMenuBar menuBar;
     JMenu menutp1;
     JMenuItem itemprofil;

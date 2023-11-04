@@ -22,11 +22,12 @@ import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 
-public class Profils extends JFrame {
+import com.example.utils.JFrameDraggable;
+
+public class Profils extends JFrameDraggable {
     ArrayList<Profil> data = new ArrayList<Profil>();
     DefaultListModel<String> model;
     JTabbedPane jtp;
-    // Declaration
     JLabel lb_nom, lb_prenom, lb_pseudo, lb_help;
     JTextField tf_nom, tf_prenom, tf_pseudo;
     JButton btnvalider;
@@ -140,15 +141,28 @@ public class Profils extends JFrame {
             public void mouseClicked(MouseEvent e) {
                 if (e.getClickCount() == 2) {
                     // double click
-                    jtp.addTab("titre1", new JPanel());
-                    // CORRIGER CETTE PARTIE
+                    String pseudo = jlist_profil.getSelectedValue();
+
+                    // Check if tab with same title already exists
+                    for (int i = 0; i < jtp.getTabCount(); i++) {
+                        if (jtp.getTitleAt(i).equals(pseudo)) {
+                            return; // Exit if tab already exists
+                        }
+                    }
+
+                    // Add new tab if it doesn't exist
+                    jtp.addTab(pseudo, new JPanel());
                 }
+
                 if (e.getButton() == MouseEvent.BUTTON3) {
-                    // click droite
+                    // right click
+                    if (jtp.getSelectedIndex() != -1) {
+                        jtp.removeTabAt(jtp.getSelectedIndex());
+                    }
                 }
             }
         });
-    }// fin constructeur
+    }
 
     class EcouteurLabel implements MouseListener {
 
