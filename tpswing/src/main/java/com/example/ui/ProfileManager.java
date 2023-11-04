@@ -110,9 +110,16 @@ public class ProfileManager extends JFrameDraggable {
                 boolean pseudoExists = data.stream().anyMatch(profil -> profil.getNickname().equals(newPseudo));
 
                 if (!pseudoExists) {
+                    String parsedNickname = tf_pseudo.getText().trim().toLowerCase();
+
                     // Add new Profil if pseudo is unique
-                    data.add(new UserProfile(tf_nom.getText(), tf_prenom.getText(), newPseudo));
-                    model.addElement(newPseudo);
+                    data.add(new UserProfile(tf_nom.getText(), tf_prenom.getText(), parsedNickname));
+                    model.addElement(parsedNickname);
+
+                    // Reset text fields
+                    tf_nom.setText(Labels.LASTNAME_LABEL);
+                    tf_prenom.setText(Labels.FIRSTNAME_LABEL);
+                    tf_pseudo.setText(Labels.NICKNAME_LABEL);
                 } else {
                     // Show error message
                     JOptionPane.showMessageDialog(
@@ -145,7 +152,8 @@ public class ProfileManager extends JFrameDraggable {
                     // Check if tab with same title already exists
                     for (int i = 0; i < jtp.getTabCount(); i++) {
                         if (jtp.getTitleAt(i).equals(pseudo)) {
-                            return; // Exit if tab already exists
+                            jtp.setSelectedIndex(i);
+                            return;
                         }
                     }
 
