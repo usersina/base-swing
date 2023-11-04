@@ -1,0 +1,19 @@
+version: "3"
+
+silent: true
+
+tasks:
+  up:
+    desc: "Start the development services"
+    cmds:
+      - docker compose up -d
+
+  down:
+    desc: "Stop the development services"
+    cmds:
+      - docker compose down
+
+  delete:
+    desc: "WARNING: Stop the development services and remove all data"
+    cmds:
+      - docker compose down --volumes
