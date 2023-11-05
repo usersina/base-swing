@@ -29,7 +29,10 @@ public class StudentDAO {
         if (query == null) {
             query = "SELECT * FROM student";
         }
-        Statement st = dbConn.getConnection().createStatement();
+        Statement st = dbConn.getConnection().createStatement(
+                ResultSet.TYPE_SCROLL_SENSITIVE,
+                ResultSet.CONCUR_UPDATABLE //
+        );
         st.executeQuery(query);
         return st.getResultSet();
     }

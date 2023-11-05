@@ -1,11 +1,14 @@
 package com.example;
 
 import java.awt.BorderLayout;
+import java.sql.SQLException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 
 public class GestionEtudiant extends JFrame {
@@ -13,8 +16,9 @@ public class GestionEtudiant extends JFrame {
     JLabel lbnom, lbprenom, lbnumero, lbmoyenne;
     JTextField tfnom, tfprenom, tfnumero, tfmoyenne;
     JButton btnval;
+    JTable table;
 
-    GestionEtudiant() {
+    GestionEtudiant() throws SQLException {
         this.setTitle("Gestion etudiant");
         setSize(1000, 600);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -45,11 +49,25 @@ public class GestionEtudiant extends JFrame {
         pnorth.add(btnval);
         this.add(pnorth, BorderLayout.NORTH);
 
+        table = new JTable();
+        this.add(new JScrollPane(table), BorderLayout.CENTER);
+
+        // DAO
+        StudentDAO studentDAO = new StudentDAO();
+
+        // table model
+        TableModel model = new TableModel(studentDAO.getStudents(null));
+        table.setModel(model);
+
         // EVENT
 
     }
 
     public static void main(String[] args) {
-        new GestionEtudiant().setVisible(true);
+        try {
+            new GestionEtudiant().setVisible(true);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }
