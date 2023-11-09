@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -56,10 +57,37 @@ public class GestionEtudiant extends JFrame {
         StudentDAO studentDAO = new StudentDAO();
 
         // table model
-        TableModel model = new TableModel(studentDAO.getStudents(null));
+        TableModel model = new TableModel(
+                studentDAO.getStudents(null),
+                "average" //
+        );
         table.setModel(model);
 
         // EVENT
+        btnval.addActionListener(e -> {
+            String nom = tfnom.getText();
+            String prenom = tfprenom.getText();
+            int numero = Integer.parseInt(tfnumero.getText());
+            double moyenne = Double.parseDouble(tfmoyenne.getText());
+            try {
+                studentDAO.addStudent(numero, prenom, nom, moyenne);
+                // Refresh the result set and fire the table data changed event
+                model.setResultSet(studentDAO.getStudents(null));
+                model.fireTableDataChanged();
+                // clear the text fields
+                tfnom.setText("");
+                tfprenom.setText("");
+                tfnumero.setText("");
+                tfmoyenne.setText("");
+            } catch (SQLException e1) {
+                JOptionPane.showMessageDialog(
+                        this,
+                        "Cannot insert: " + e1.getMessage(),
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE //
+                );
+            }
+        });
 
     }
 

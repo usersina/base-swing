@@ -12,17 +12,13 @@ public class StudentDAO {
         dbConn = new DBConnection();
     }
 
-    public void addStudent(int id, String firstname, String lastname, double average) {
-        try {
-            PreparedStatement ps = dbConn.conn.prepareStatement("INSERT INTO student VALUES(?, ?, ?, ?)");
-            ps.setInt(1, id);
-            ps.setString(2, firstname);
-            ps.setString(3, lastname);
-            ps.setDouble(4, average);
-            ps.executeUpdate();
-        } catch (SQLException e) {
-            System.out.println("Cannot insert new student: " + e.getMessage());
-        }
+    public void addStudent(int id, String firstname, String lastname, double average) throws SQLException {
+        PreparedStatement ps = dbConn.conn.prepareStatement("INSERT INTO student VALUES(?, ?, ?, ?)");
+        ps.setInt(1, id);
+        ps.setString(2, firstname);
+        ps.setString(3, lastname);
+        ps.setDouble(4, average);
+        ps.executeUpdate();
     }
 
     public ResultSet getStudents(String query) throws SQLException {
