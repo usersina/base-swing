@@ -6,14 +6,14 @@ tasks:
   up:
     desc: "Start the development services"
     cmds:
-      - docker compose up -d
+      - docker compose -f ./compose/docker-compose.yml up -d
 
   down:
     desc: "Stop the development services"
     cmds:
-      - docker compose down
+      - docker compose -f ./compose/docker-compose.yml down
 
   delete:
     desc: "WARNING: Stop the development services and remove all data"
     cmds:
-      - docker compose down --volumes
+      - docker compose -f ./compose/docker-compose.yml down --volumes
