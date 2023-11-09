@@ -90,12 +90,4 @@ public class GestionEtudiant extends JFrame {
         });
 
     }
-
-    public static void main(String[] args) {
-        try {
-            new GestionEtudiant().setVisible(true);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
 }
